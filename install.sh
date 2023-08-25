@@ -158,9 +158,9 @@ fi
 #安装依赖
 apt install build-essential libpcre3 libpcre3-dev zlib1g-dev openssl libssl-dev -y
 #下载Nginx源码
-wget https://nginx.org/download/nginx-1.25.1.tar.gz
-tar -xzvf nginx-1.25.1.tar.gz
-cd nginx-1.25.1
+wget https://nginx.org/download/nginx-1.25.2.tar.gz
+tar -xzvf nginx-1.25.2.tar.gz
+cd nginx-1.25.2
 ./configure \
 --prefix=/usr/local/nginx \
 --user=nginx \
