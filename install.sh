@@ -132,8 +132,7 @@ echo "开始申请证书"
 apt update
 mkdir -p /xray/tls
 chmod 777 /xray/tls
-apt install socat -y
-apt install curl -y
+apt install cron curl socat -y
 curl https://get.acme.sh | sh
 ln -s  /root/.acme.sh/acme.sh /usr/local/bin/acme.sh
 source ~/.bashrc
