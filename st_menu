@@ -1,8 +1,8 @@
 #!/bin/bash
 
 clear
-echo "Vless-Reality+Vision"
-echo "遇到问题联系我:https://t.me/iu536"
+echo "Reality+Vision YYDS"
+echo "遇到问题联系admin@sitao.org"
 echo
 
 check=0
@@ -41,7 +41,7 @@ do
           systemctl disable nginx
           systemctl stop nginx
           rm -rf /usr/local/nginx
-          rm -rf /usr/bin/iu
+          rm -rf /usr/bin/st
           echo "已彻底删除！不留痕迹"
           exit
      fi
