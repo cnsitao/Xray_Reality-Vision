@@ -1,14 +1,12 @@
 #!/bin/bash
 
 clear
-echo "Hello! 欢迎使用Xray_Reality+Vision脚本"
-echo "作者:https://t.me/iu536"
+echo "Hello! 欢迎使用我写的Reality+Vision脚本"
+echo "有问题联系admin@sitao.org"
 echo "适用于Debian和Ubuntu"
 echo "系统要非常干净"
 echo
-echo
-echo "脚本默认用nginx 建站监听127.0.0.1:16969，然后reality偷127.0.0.1:16969，fallback到127.0.0.1:16969,再配合vision解决 tls in tls"
-echo
+echo "默认用nginx 建站监听127.0.0.1:16969，然后reality偷127.0.0.1:16969，fallback到127.0.0.1:16969,再配合vision解决 tls in tls"
 echo
 read -p "偷自己的域名吗？[y/n](默认y):" check
 
@@ -67,8 +65,8 @@ EOF
 if [ "$local_web" = "1" ]
 then
          mkdir /web
-         wget https://raw.githubusercontent.com/LSitao/Trojan-gRPC-tls/main/web/game.tar.gz
-         tar -zvxf game.tar.gz -C /web
+         wget http://dl.sitao.org/web.tar.gz
+         tar -zvxf web.tar.gz -C /web
 
 cat << EOF > /xray/config.json
 {
@@ -149,7 +147,7 @@ if `test -s /xray/tls/server.crt`
         echo -e "/xray/tls/server.crt"
         echo -e "/xray/tls/server.key\n"
    else
-        echo "证书安装失败！请检查原因！有问题可联系telegram @iu536"
+        echo "证书安装失败！请检查原因！有问题联系admin@sitao.org"
         exit
 fi
 
@@ -324,10 +322,10 @@ SpiderX ：留空
 EOF
 echo $Privatekey > /xray/Privatekey
 apt install jq -y
-curl  https://raw.githubusercontent.com/LSitao/Xray_Reality-Vision/main/iu_menu > /xray/iu.sh
-cp /xray/iu.sh /usr/bin/iu
-chmod 777 /usr/bin/iu
-
+curl  https://raw.githubusercontent.com/LSitao/Xray_Reality-Vision/main/st_menu > /xray/st.sh
+cp /xray/st.sh /usr/bin/st
+chmod 777 /usr/bin/st
+rm -rf web.tar.gz nginx-1.25.2.tar.gz nginx-1.25.2 
 clear
 echo "安装完成！"
 echo "以下的信息能帮助你在客户端添加该节点"
@@ -337,12 +335,12 @@ echo
 echo
 echo "之后可以执行cat /xray/node 命令查看节点信息，cat /xray/Privatekey查看私钥"
 echo
-echo "vless://${id}@`curl ip.sb`:$port?encryption=none&flow=xtls-rprx-vision&security=reality&sni=$domain&fp=chrome&pbk=$Publickey&sid=1153456789abcdef&type=tcp&headerType=none#Reality+Vision" > /xray/example_node
+echo "vless://${id}@`curl ip.sb -4`:$port?encryption=none&flow=xtls-rprx-vision&security=reality&sni=$domain&fp=chrome&pbk=$Publickey&sid=1153456789abcdef&type=tcp&headerType=none#Reality+Vision" > /xray/example_node
 echo
-echo "你也可以直接使用下面的示例链接"
+echo "你也可以直接使用下面的示例链接(默认屏蔽了回国流量)"
 cat /xray/example_node
 echo
-echo
-echo "输入iu可调出菜单"
+echo "输入st可调出菜单"
+echo 
 echo
 echo "感谢使用"
