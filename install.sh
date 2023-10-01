@@ -325,7 +325,7 @@ apt install jq -y
 curl  https://raw.githubusercontent.com/LSitao/Xray_Reality-Vision/main/st_menu > /xray/st.sh
 cp /xray/st.sh /usr/bin/st
 chmod 777 /usr/bin/st
-rm -rf web.tar.gz nginx-1.25.2.tar.gz nginx-1.25.2 
+rm -rf ~/web.tar.gz nginx-1.25.2.tar.gz nginx-1.25.2 Xray-linux-64.zip
 clear
 echo "安装完成！"
 echo "以下的信息能帮助你在客户端添加该节点"
