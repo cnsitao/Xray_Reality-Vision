@@ -2,7 +2,7 @@
 
 clear
 echo "Hello! 欢迎使用我写的Reality+Vision脚本"
-echo "有问题联系admin@sitao.org"
+echo "有问题联系root@sitao.org"
 echo "适用于Debian和Ubuntu"
 echo "系统要非常干净"
 echo
