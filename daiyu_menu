@@ -1,8 +1,7 @@
 #!/bin/bash
 
 clear
-echo "Reality+Vision YYDS"
-echo "遇到问题联系admin@sitao.org"
+echo "遇到问题联系root@sitao.org"
 echo
 
 check=0
@@ -40,8 +39,10 @@ do
           rm /usr/bin/xray
           systemctl disable nginx
           systemctl stop nginx
+          rm /etc/systemd/system/nginx.service
+          systemctl daemon-reload
           rm -rf /usr/local/nginx
-          rm -rf /usr/bin/st
+          rm -rf /usr/bin/daiyu
           echo "已彻底删除！不留痕迹"
           exit
      fi
