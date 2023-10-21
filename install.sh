@@ -1,12 +1,12 @@
 #!/bin/bash
 
 clear
-echo "Hello! 欢迎使用我写的Reality+Vision脚本"
+echo "Hi. 欢迎使用我写的Reality+Vision脚本"
 echo "有问题联系root@sitao.org"
-echo "适用于Debian和Ubuntu"
-echo "系统要非常干净"
+echo "适用于Debian和Ubuntu系统,暂不支持centos"
+echo "系统尽量干净(无nginx)"
 echo
-echo "默认用nginx 建站监听127.0.0.1:16969，然后reality偷127.0.0.1:16969，fallback到127.0.0.1:16969,再配合vision解决 tls in tls"
+echo "实现：用nginx 建站监听127.0.0.1:16969，然后reality偷127.0.0.1:16969，fallback到127.0.0.1:16969,再配合vision解决 tls in tls"
 echo
 read -p "偷自己的域名吗？[y/n](默认y):" check
 
@@ -20,16 +20,22 @@ if [ -z "$check" ] || [ "$check" = "y" ]
          read -p "请输入你想偷的域名:" domain
 fi
 
-read -p "输入节点端口[默认57866]:" port
+read -p "输入节点端口[默认20230]:" port
             if [ -z $port ]
-                then port=57866
+                then port=20230
             fi
+
+read -p "要屏蔽回国流量吗?[y/n](默认n):" block
+ if [ -z $block ]
+                then block=n
+ fi
 
 clear
 echo "OK! 一切已准备就绪，按回车键开始安装!"
 read
 
 #安装Xray，版本：1.8.4
+echo "安装Xray，版本：1.8.4"
 mkdir /xray
 chmod 777 /xray
 wget https://github.com/XTLS/Xray-core/releases/download/v1.8.4/Xray-linux-64.zip
@@ -61,13 +67,50 @@ LimitNOFILE=1000000
 WantedBy=multi-user.target
 EOF
 
-#偷自己
-if [ "$local_web" = "1" ]
+if [ "$block" = "n" ]
 then
-         mkdir /web
-         wget https://raw.githubusercontent.com/LSitao/Trojan-gRPC-tls/main/web/game.tar.gz
-         tar -zvxf game.tar.gz -C /web
+cat << EOF > /xray/config.json
+{
+	"inbounds": [{
+		"listen": "0.0.0.0",
+		"port":  $port,
+		"protocol": "vless",
+		"settings": {
+			"clients": [{
+				"id": "${id}",
+				"flow": "xtls-rprx-vision"
+			}],
+			"decryption": "none"
+		},
+		"streamSettings": {
+			"network": "tcp",
+			"security": "reality",
+			"realitySettings": {
+				"show": false,
+				"dest": "16969",
+				"xver": 0,
+				"serverNames": [
+					"$domain"
+			
+				],
+				"privateKey": "$Privatekey",
 
+				"shortIds": [
+					"",
+					"1153456789abcdef"
+				]
+			}
+		}
+	}],
+	"outbounds": [{
+			"protocol": "freedom",
+			"tag": "direct"
+		}
+	]
+}
+EOF
+
+else 
 cat << EOF > /xray/config.json
 {
 "routing": {
@@ -124,6 +167,14 @@ cat << EOF > /xray/config.json
 	]
 }
 EOF
+fi
+
+#偷自己
+if [ "$local_web" = "1" ]
+then
+         mkdir /web
+         wget https://raw.githubusercontent.com/cnsitao/Trojan-gRPC-tls/main/web/game.tar.gz
+         tar -zvxf game.tar.gz -C /web
 
 #申请证书
 echo "开始申请证书"
@@ -147,11 +198,15 @@ if `test -s /xray/tls/server.crt`
         echo -e "/xray/tls/server.crt"
         echo -e "/xray/tls/server.key\n"
    else
-        echo "证书安装失败！请检查原因！有问题联系admin@sitao.org"
+		rm -rf /xray
+		rm /etc/systemd/system/xray.service
+		systemctl daemon-reload
+		rm -rf ~/game.tar.gz Xray-linux-64.zip
+		echo "证书安装失败！请检查原因！有问题联系root@sitao.org"
         exit
 fi
 
-#编译安装nginx
+#安装nginx
 #安装依赖
 apt install build-essential libpcre3 libpcre3-dev zlib1g-dev openssl libssl-dev -y
 #下载Nginx源码
@@ -322,10 +377,10 @@ SpiderX ：留空
 EOF
 echo $Privatekey > /xray/Privatekey
 apt install jq -y
-curl  https://raw.githubusercontent.com/LSitao/Xray_Reality-Vision/main/st_menu > /xray/st.sh
-cp /xray/st.sh /usr/bin/st
-chmod 777 /usr/bin/st
-rm -rf ~/web.tar.gz nginx-1.25.2.tar.gz nginx-1.25.2 Xray-linux-64.zip
+curl  https://raw.githubusercontent.com/LSitao/Xray_Reality-Vision/main/daiyu_menu > /xray/daiyu.sh
+cp /xray/daiyu.sh /usr/bin/daiyu
+chmod 777 /usr/bin/daiyu
+rm -rf Xray-linux-64.zip  game.tar.gz  nginx-1.25.2  nginx-1.25.2.tar.gz
 clear
 echo "安装完成！"
 echo "以下的信息能帮助你在客户端添加该节点"
@@ -337,10 +392,10 @@ echo "之后可以执行cat /xray/node 命令查看节点信息，cat /xray/Priv
 echo
 echo "vless://${id}@`curl ip.sb -4`:$port?encryption=none&flow=xtls-rprx-vision&security=reality&sni=$domain&fp=chrome&pbk=$Publickey&sid=1153456789abcdef&type=tcp&headerType=none#Reality+Vision" > /xray/example_node
 echo
-echo "你也可以直接使用下面的示例链接(默认屏蔽了回国流量)"
+echo "你也可以直接使用下面的示例链接"
 cat /xray/example_node
 echo
-echo "输入st可调出菜单"
+echo "输入daiyu可调出菜单"
 echo 
 echo
 echo "感谢使用"
