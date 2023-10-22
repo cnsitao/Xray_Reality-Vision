@@ -1,1 +1,1 @@
-bash <(curl -sL https://raw.githubusercontent.com/LSitao/Xray_Reality-Vision/main/install.sh)
+bash <(curl -sL https://raw.githubusercontent.com/cnsitao/Xray_Reality-Vision/main/install.sh)
