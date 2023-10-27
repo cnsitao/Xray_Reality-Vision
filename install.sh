@@ -272,7 +272,8 @@ nginx -v
 echo "Nginx安装成功!"
 cat << EOF > /usr/local/nginx/conf.d/reality.conf
 server {
-    listen 127.0.0.1:16969 ssl http2;
+    listen 127.0.0.1:16969 ssl;
+    http2 on;
     server_name $domain;
     error_page 497 https://\$host:16969\$request_uri;
 
