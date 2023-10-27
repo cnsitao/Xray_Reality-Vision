@@ -362,7 +362,7 @@ systemctl enable xray.service
 systemctl start xray.service
 
 cat << EOF > /xray/node
-ip: `curl ip.sb`
+ip: `curl ip.sb -4`
 端口: $port
 用户id: $id
 流控: xtls-rprx-vision
@@ -381,7 +381,7 @@ apt install jq -y
 curl  https://raw.githubusercontent.com/LSitao/Xray_Reality-Vision/main/daiyu_menu > /xray/daiyu.sh
 cp /xray/daiyu.sh /usr/bin/daiyu
 chmod 777 /usr/bin/daiyu
-rm -rf Xray-linux-64.zip  game.tar.gz  nginx-1.25.2  nginx-1.25.2.tar.gz
+rm -rf ~/Xray-linux-64.zip  game.tar.gz  nginx-1.25.2  nginx-1.25.2.tar.gz
 clear
 echo "安装完成！"
 echo "以下的信息能帮助你在客户端添加该节点"
