@@ -73,6 +73,7 @@ LimitNOFILE=1000000
 WantedBy=multi-user.target
 EOF
 
+#不屏蔽回国流量
 if [ "$block" = "n" ]
 then
 cat << EOF > /xray/config.json
@@ -117,6 +118,7 @@ cat << EOF > /xray/config.json
 EOF
 
 else 
+#屏蔽回国流量
 cat << EOF > /xray/config.json
 {
 "routing": {
@@ -305,63 +307,8 @@ systemctl restart nginx
 
 #偷别人
 else 
-cat << EOF > /xray/config.json
-{
-"routing": {
-        "domainStrategy": "IPIfNonMatch",
-        "rules": [
-            {
-                "type": "field",
-                "ip": [
-                    "geoip:cn"
-                ],
-                "outboundTag": "block"
-            }
-        ]
-    },
-	"inbounds": [{
-		"listen": "0.0.0.0",
-		"port":  $port,
-		"protocol": "vless",
-		"settings": {
-			"clients": [{
-				"id": "${id}",
-				"flow": "xtls-rprx-vision"
-			}],
-			"decryption": "none"
-		},
-		"streamSettings": {
-			"network": "tcp",
-			"security": "reality",
-			"realitySettings": {
-				"show": false,
-				"dest": "$domain:443",
-				"xver": 0,
-				"serverNames": [
-					"$domain"
-			
-				],
-				"privateKey": "$Privatekey",
-
-				"shortIds": [
-					"",
-					"1153456789abcdef"
-				]
-			}
-		}
-	}],
-	"outbounds": [{
-			"protocol": "freedom",
-			"tag": "direct"
-		},
-		{
-			"protocol": "blackhole",
-			"tag": "block"
-		}
-	]
-}
-EOF
-
+echo "无需安装nginx"
+echo "即将完成安装..."
 fi
 
 systemctl enable xray.service
@@ -379,7 +326,7 @@ ip: `curl ip.sb -4`
 SNI:$domain
 Fingerprint: chrome
 Publickey:$Publickey
-ShortId: 1153456789abcdef (可不填；想自定义可以修改配置文件/xray/config.json)
+ShortId: 1153456789abcdef (客户端可用的 shortId 列表，可用于区分不同的客户端，可留空，想自定义需自行修改配置文件/xray/config然后重启xray)
 SpiderX ：留空
 EOF
 echo $Privatekey > /xray/Privatekey
