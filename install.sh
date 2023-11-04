@@ -14,10 +14,16 @@ if [ -z "$check" ] || [ "$check" = "y" ]
   then
          local_web=1
          read -p "请输入你的域名:" domain
+	 if [ -z $domain ]
+   		then exit
+         fi
          
   else
          local_web=0
          read -p "请输入你想偷的域名:" domain
+	 if [ -z $domain ]
+   		then exit
+         fi
 fi
 
 read -p "输入节点端口[默认20230]:" port
