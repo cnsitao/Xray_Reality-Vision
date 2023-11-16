@@ -308,7 +308,47 @@ systemctl restart nginx
 #偷别人
 else 
 echo "无需安装nginx"
-echo "即将完成安装..."
+cat << EOF > /xray/config.json
+{
+	"inbounds": [{
+		"listen": "0.0.0.0",
+		"port":  $port,
+		"protocol": "vless",
+		"settings": {
+			"clients": [{
+				"id": "${id}",
+				"flow": "xtls-rprx-vision"
+			}],
+			"decryption": "none"
+		},
+		"streamSettings": {
+			"network": "tcp",
+			"security": "reality",
+			"realitySettings": {
+				"show": false,
+				"dest": "$domain:443",
+				"xver": 0,
+				"serverNames": [
+					"$domain"
+			
+				],
+				"privateKey": "$Privatekey",
+
+				"shortIds": [
+					"",
+					"1153456789abcdef"
+				]
+			}
+		}
+	}],
+	"outbounds": [{
+			"protocol": "freedom",
+			"tag": "direct"
+		}
+	]
+}
+EOF
+
 fi
 
 systemctl enable xray.service
