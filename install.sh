@@ -374,7 +374,7 @@ apt install jq -y
 curl  https://raw.githubusercontent.com/LSitao/Xray_Reality-Vision/main/daiyu_menu > /xray/daiyu.sh
 cp /xray/daiyu.sh /usr/bin/daiyu
 chmod 777 /usr/bin/daiyu
-rm -rf ~/Xray-linux-64.zip  game.tar.gz  nginx-1.25.2  nginx-1.25.2.tar.gz
+rm -rf ~/Xray-linux-64.zip  game.tar.gz  nginx-*
 clear
 echo "安装完成！"
 echo "以下的信息能帮助你在客户端添加该节点"
