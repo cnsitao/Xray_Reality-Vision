@@ -40,11 +40,11 @@ clear
 echo "OK! 一切已准备就绪，按回车键开始安装!"
 read
 
-#安装Xray，版本：1.8.6
-echo "安装Xray，版本：1.8.6"
+#安装Xray，版本：1.8.8
+echo "安装Xray，版本：1.8.8"
 mkdir /xray
 chmod 777 /xray
-wget https://github.com/XTLS/Xray-core/releases/download/v1.8.6/Xray-linux-64.zip
+wget https://github.com/XTLS/Xray-core/releases/download/v1.8.8/Xray-linux-64.zip
 apt-get install unzip -y
 unzip Xray-linux-64.zip -d /xray
 cp /xray/xray /usr/bin/xray
