@@ -104,7 +104,7 @@ cat << EOF > /xray/config.json
 
 				"shortIds": [
 					"",
-					"anxz7g"
+					"1153456789abcdef"
 				]
 			}
 		}
@@ -384,7 +384,7 @@ echo
 echo
 echo "之后可以执行cat /xray/node 命令查看节点信息，cat /xray/Privatekey查看私钥"
 echo
-echo "vless://${id}@`curl ip.sb -4`:$port?encryption=none&flow=xtls-rprx-vision&security=reality&sni=$domain&fp=chrome&pbk=$Publickey&sid=anxz7g&type=tcp&headerType=none#Reality+Vision" > /xray/example_node
+echo "vless://${id}@`curl ip.sb -4`:$port?encryption=none&flow=xtls-rprx-vision&security=reality&sni=$domain&fp=chrome&pbk=$Publickey&sid=1153456789abcdef&type=tcp&headerType=none#Reality+Vision" > /xray/example_node
 echo
 echo "你也可以直接使用下面的示例链接"
 cat /xray/example_node
