@@ -26,9 +26,9 @@ if [ -z "$check" ] || [ "$check" = "y" ]
          fi
 fi
 
-read -p "输入节点端口[默认20230]:" port
+read -p "输入节点端口[默认57866]:" port
             if [ -z $port ]
-                then port=20230
+                then port=57866
             fi
 
 read -p "要屏蔽回国流量吗?[y/n](默认n):" block
@@ -40,11 +40,11 @@ clear
 echo "OK! 一切已准备就绪，按回车键开始安装!"
 read
 
-#安装Xray，版本：1.8.9
-echo "安装Xray，版本：1.8.9"
+#安装Xray，版本：1.8.10
+echo "安装Xray，版本：1.8.10"
 mkdir /xray
 chmod 777 /xray
-wget https://github.com/XTLS/Xray-core/releases/download/v1.8.9/Xray-linux-64.zip
+wget https://github.com/XTLS/Xray-core/releases/download/v1.8.10/Xray-linux-64.zip
 apt-get install unzip -y
 unzip Xray-linux-64.zip -d /xray
 cp /xray/xray /usr/bin/xray
